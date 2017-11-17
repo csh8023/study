@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>张东明-个人博客</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="public/css/index.css" rel="stylesheet" type="text/css" />
+
+<!-- <script type="text/javascript" src="../../public/js/cufon-yui.js"></script> -->
+<script type="text/javascript" src="public/js/arial.js"></script>
+<script type="text/javascript" src="public/js/cuf_run.js"></script>
+<!-- CuFon ends -->
+</head>
+<body>
+<div class="main">
+
+  <div class="header">
+    <div class="header_resize">
+       <div class="logo"><h1 style="font-size: 30px;">张东明<small> - 个人博客</small></h1></div>
+      <div class="menu_nav" style="margin-right: -65px;">
+        <ul>
+           <li><a href="index.php">主页</a></li>
+         <!--  <li><a href="index.php?m=index&a=support">支持</a></li> -->
+          <li><a href="index.php?m=index&a=about">关于我</a></li>
+          {if !empty($_SESSION['username']) && $_SESSION['username'] == '张东明'}
+          <li><a href="index.php?m=index&a=contact">发表文章</a></li>
+          <li><a href="index.php?m=admin&a=login" target="_blank">后台管理</a></li>
+          {/if}
+          {if empty($_SESSION['username'])}
+
+          <li><a href="index.php?m=user&a=login">登录</a></li>
+          <li><a href="index.php?m=user&a=login">注册</a></li>
+          <li><a href="index.php?m=user&a=reback">找回密码</a></li>
+          <!-- <a href="index.php?m=user&a=login" style="float: right;margin-top: 5px;margin-right:-200px;">注册</a>
+          <a href="index.php?m=user&a=login" style="float: right;margin-right: -165px;margin-top: 5px;">登录</a> -->
+          {else}
+          <li><a href="index.php?m=index&a=personal">个人中心</a></li>
+          <span style="float: right;margin-top: 5px;margin-right:-90px;">欢迎：{$_SESSION['username']}</span> 
+          {if empty($_SESSION['picture'])}
+          <img src="public/images/userpic.gif" style="float: right;margin-top: -7px;margin-right:-145px; height:40px;">
+          {else}
+          <img src="{$_SESSION['picture']}" style="float: right;margin-top: -7px;margin-right:-145px; width:50px;">
+          {/if}
+          <!--  <a href="index.php?m=user&a=tuichu" style="float: right;margin-top: -20px;margin-right:-190px;">退出</a>
+          <a href="index.php?m=user&a=login" style="float: right;margin-top: 5px;margin-right:-200px;">用户管理</a>
+          <a href="index.php?m=user&a=login" style="float: right;margin-right: -130px;margin-top: 5px;">个人中心</a> -->
+          <li><a href="index.php?m=user&a=tuichu">退出</a></li>
+         {/if}
+        </ul>
+      </div>
+      <div class="clr"></div>
+      <div class="htext">
+         <h2>每一颗眼泪是遗忘的星星，最昏暗的地方也变得明亮。</h2>
+        <p>一生总有这样的时候：最想流泪的事情发生时，死撑着不肯落一滴眼泪。最想挽留的人离开时，咬紧了牙不肯说一句挽留。心里无数次叫嚷着想投降，脸上却佯装出一副毫不在乎。那一刻觉得自己好坚强，青春就在疼痛的坚强中一天天消耗光。过后才懂，因为软弱，所以逞强。总把自尊看得比命还重要。 
+        <p><a href="https://meiriyiwen.com/"><img src="public/images/readmore.gif" width="113" height="37" alt="read more" border="0" /></a></p>
+      </div>
+      <div class="clr"></div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="content_resize">
+      <div class="mainbar">
+     
+        <div class="article">
+          <h2>设置头像</h2><div class="clr"></div>
+          <p> <a href="#"></a> 如果您还没有设置自己的头像，系统会显示为默认头像，您需要自己上传一张新照片来作为自己的个人头像</p>
+          <p> </p>
+          <p style="color: #0096E6;font-size: 16px;"><a href="#"></a><a href="#"></a>赶快上传你英俊潇洒的帅照吧 <a href="#"></a> <a href="#"></a></p>
+          <p><a href="#"><strong> </strong></a>  </p> 
+         
+        </div>
+
+      
+        <div class="article">
+        <form action="index.php?m=index&a=personal" method="post" enctype="multipart/form-data">
+        {if empty($_SESSION['picture'])}
+         <img src="public/images/userpic.gif" width="40" height="40" alt="user" class="userpic" style="border:0; margin-top:-60px;" />
+         {else}
+         <img src="{$_SESSION['picture']}"  height="50" alt="user" class="userpic" style="border:0; margin-top:-60px;" />
+         {/if}
+        <p>
+        <input type="file" name="photo"></p>
+          <h2><span></span></h2><div class="clr"></div>
+          <input type="submit" value="上传头像">
+        </form>
+          <div class="comment">
+            <p><a href="#"></a> <br /></p>
+            <p></p> 
+          </div>
+         
+        </div>
+        <!-- <div style="margin-left: 200px;margin-bottom: 20px;"><a href="index.php?m=index&a=index&page={$first}">首页</a>&nbsp;&nbsp;<a href="index.php?m=index&a=index&page={$prev}">上一页</a>&nbsp;&nbsp;<a href="index.php?m=index&a=index&page={$next}">下一页</a>&nbsp;&nbsp;<a href="index.php?m=index&a=index&page={$last}">尾页</a>&nbsp;&nbsp;共{$count}条记录&nbsp;&nbsp;每页显示{$num}条&nbsp;&nbsp;{$dangqian}/{$zongyeshu}页</div> -->
+        <div class="article">
+          <h2><span></span></h2><div class="clr"></div>
+          <form action="" method="post" id="leavereply">
+          <ol><li>
+            <label for="message"></label>
+           
+          </li><li>
+            
+            <div class="clr"></div>
+          </li></ol>
+          </form>
+        </div>
+      </div>
+      <div class="sidebar">
+        <div class="gadget">
+          <h2 class="star"><span>最新发表</span></h2><div class="clr"></div>
+          <ul class="sb_menu">
+            {if !empty($sidebar)}
+            {foreach $sidebar as $k=>$v}
+            {if $k<5}
+            <li style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;width:250px;"><a href="index.php?m=index&a=blog&id={$v['id']}">{$v['title']}</a></li>
+            {/if}
+            {/foreach}
+            {/if}
+        </div>
+        <div class="gadget">
+          <h2 class="star"><span>热门文章</span></h2><div class="clr"></div>
+          <ul class="ex_menu">
+          {if !empty($hot)}
+          {foreach $hot as $val}
+            <li style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;width:250px;"><a href="index.php?m=index&a=blog&id={$val['id']}" title="Website Templates">{$val['title']}</li>
+          {/foreach}
+          {/if}
+          </ul>
+        </div>
+      </div>
+      <div class="clr"></div>
+    </div>
+  </div>
+
+  <div class="fbg">
+    <div class="fbg_resize">
+      <div class="col c1">
+        <h2><span>About</span></h2>
+        <img src="public/images/white.jpg" width="56" height="56" alt="pix" />
+        <p> 一个人面对外面的世界，需要的是窗子;一个人面对自我时，需要的是镜子。通过窗子能看见世界的明亮，使用镜子能看见自己的污点。其实，窗子或镜子并不重要，重要的是你的心。你的心明亮，世界就明亮;你的心如窗，就看见了世界;你的心如镜，就观照了自我。</p>
+      </div>
+      <div class="col c2">
+        <h2><span>Lorem Ipsum</span></h2>
+        <ul class="sb_menu">
+          <li><a href="#">consequat molestie</a></li>
+          <li><a href="#">sem justo</a></li>
+          <li><a href="#">semper</a></li>
+          <li><a href="#">magna sed purus</a></li>
+          <li><a href="#">tincidunt</a></li>
+        </ul>
+      </div>
+      <div class="col c3">
+        <h2><span>Contact</span></h2>
+        <p>Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue.</p>
+        <p><a href="mailto:support@yoursite.com">support@yoursite.com</a></p>
+        <p>+1 (123) 444-5677<br />+1 (123) 444-5678</p>
+        <p>Address: 123 TemplateAccess Rd1</p>
+      </div>
+      <div class="clr"></div>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="footer_resize">
+      <span> 也许你只是一株稚嫩的幼苗，然而只要坚忍不拔，终会成为参天大树。</span>
+      <span style="float:right;" class="lf">© Copyright <a href="#">MyWebSite</a>. Collect from <a href="http://www.cssmoban.com/" title="网站模板" target="_blank">网站模板</a></span>
+           <div class="clr"></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

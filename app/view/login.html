@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html >
+<head>
+<meta charset="UTF-8">
+<title>login</title>
+<link rel="stylesheet" href="public/css/login.css">
+<script>
+    window.onload = function () {
+      var oBtn = document.getElementById('btn');
+      var oImg = document.getElementById('img');
+      oBtn.onclick = function ()
+      {
+        oImg.src='index.php?m=user&a=verify'+Math.random();
+      }
+    }
+</script>
+<script type="text/javascript" src="public/js/login.js"></script>
+</head>
+
+<body>
+
+<div class="cotn_principal">
+  <div class="cont_centrar">
+    <div class="cont_login">
+      <div class="cont_info_log_sign_up">
+        <div class="col_md_login">
+          <div class="cont_ba_opcitiy">
+            <h2>登录</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur.</p>
+            <button class="btn_login" onClick="cambiar_login()">登录</button>
+          </div>
+        </div>
+        <div class="col_md_sign_up">
+          <div class="cont_ba_opcitiy">
+            <h2>注册</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur.</p>
+            <button class="btn_sign_up" onClick="cambiar_sign_up()">注册</button>
+          </div>
+        </div>
+      </div>
+      <div class="cont_back_info">
+        <div class="cont_img_back_grey"> <img src="public/images/po.jpg" alt="" /> </div>
+      </div>
+      <div class="cont_forms" >
+      <form action="index.php?m=user&a=doLogin" method="post">
+        <div class="cont_img_back_"> <img src="public/images/po.jpg" alt="" /> </div>
+        <div class="cont_form_login"> <a href="#" onClick="ocultar_login_sign_up()" ><i class="material-icons">&#xE5C4;</i></a>
+          <h2>登录</h2>
+            <input type="text" placeholder="请输入用户名" name="user" />
+            <input type="password" placeholder="请输入密码" name="password" />
+            <button class="btn_login" onClick="cambiar_login()" value="登录" name="submit">登录</button>
+        </div>
+        <div class="cont_form_sign_up"> <a href="#" onClick="ocultar_login_sign_up()"><i class="material-icons">&#xE5C4;</i></a>
+          <h2>注册</h2>
+          <input type="text" placeholder="请输入用户名" name="username" />
+          <input type="password" placeholder="请输入密码" name="pwd" />
+          <input type="password" placeholder="请确认密码" name="repwd"/>
+          <input type="text" name="yzm" placeholder="请输入验证码" style="width: 80px;padding-left: 0px;margin-right: 45px;" /><img src="index.php?m=user&a=verify" id="img" onclick="this.src='index.php?m=user&a=verify&id='+Math.random();" style="margin-left: 20px;"/>
+          <button class="btn_sign_up" onClick="cambiar_sign_up()" value="注册" name="submit">注册</button>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/index.js"></script>
+<div style="text-align:center;">
+<p>来源:<a href="http://www.mycodes.net/" target="_blank">源码之家</a></p>
+</div>
+</body>
+</html>
