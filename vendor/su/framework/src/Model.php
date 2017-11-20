@@ -15,7 +15,7 @@ class Model
 	//库名字
 	protected $dbName;
 	//表名字
-	protected $table = 'user';
+	protected $table = 'detail';
 	//表前缀
 	protected $prefix;
 	//字段
@@ -43,21 +43,21 @@ class Model
 		
 		
 		//获取表名字
-		$this->table = $this->getTable();
+		//$this->table = $this->getTable($table);
 		//var_dump($this->table);
-		
+		//echo '123'.'<br/>';
 		//字段
 		$this->fields = $this->getFields();
 		
 	}
-	
+
 	//封装最大值
 	public function max($fields)
 	{
 		if (empty($fields)) {
 			$fields = $this->fields['_pk'];
 		}
-		
+		$this->table = $this->prefix . $this->table;
 		$sql = "SELECT MAX($fields) as m FROM  $this->table";
 		//echo $sql;
 		$data = $this->query($sql);
@@ -87,30 +87,35 @@ class Model
 		if (empty($fields)) {
 			$fields = $this->fields['_pk'];
 		}
-		
+
 		$sql = "SELECT SUM($fields) as m FROM  $this->table";
 		//echo $sql;
 		$data = $this->query($sql);
-		
+
 		return $data[0]['m'];
-		
-		
+
+
 	}
 	//求总数
-	public function count($fields)
-	{
-		if (empty($fields)) {
-			$fields = $this->fields['_pk'];
-		}
-		
-		$sql = "SELECT COUNT($fields) as m FROM  $this->table";
-		//echo $sql;
-		$data = $this->query($sql);
-		
-		return $data[0]['m'];
-		
-		
-	}
+    public function count($fields,$val=null)
+    {
+        if (empty($fields)) {
+            $fields = $this->prefix . $this->fields['_pk'];
+        }
+
+        $this->table = $this->prefix . $this->table;
+        if(!empty($val)) {
+            $sql = "SELECT COUNT($fields) as count FROM  $this->table WHERE $val";
+        }else{
+            $sql = "SELECT COUNT($fields) as count FROM  $this->table";
+        }
+        //echo $sql;
+        $data = $this->query($sql);
+
+        return $data[0]['count'];
+
+
+    }
 	//求平均值
 	public function avg($fields)
 	{
@@ -132,8 +137,10 @@ class Model
 	
 	protected function getFields()
 	{
-		$cacheFile = 'cache/' . $this->table . '.php';
+
+		$cacheFile = 'cache/' .'sql/'.$this->prefix. $this->table . '.php';
 		if (file_exists($cacheFile)) {
+
 			return include $cacheFile;
 		} else {
 			
@@ -158,7 +165,7 @@ class Model
 			
 			//var_dump($string);
 			
-			file_put_contents('cache/' . $this->table . '.php' , $string);
+			file_put_contents('cache/'.'sql/' . $this->prefix.$this->table . '.php' , $string);
 			return $fields;
 		}
 		
@@ -199,9 +206,9 @@ class Model
 			),
 			$sql
 		);
-
+		//echo $sql;
 		$result = $this->exec($sql , true);
-		return $result;
+	    return $result;
 	}
 	//处理update set值
 	protected function parseSet($data)
@@ -237,6 +244,7 @@ class Model
 			),
 			$sql
 		);
+		//echo $sql;
 		return $this->exec($sql);
 		
 	}
@@ -247,6 +255,7 @@ class Model
 			$result = mysqli_query($this->link , $sql);
 		
 			if ($result) {
+
 				return mysqli_affected_rows($this->link);
 			} else {
 				return false;
@@ -282,14 +291,15 @@ class Model
 		return join(',' , $keys);
 	}
 	
-	//查询
+	//【1】查询
 	public function select()
 	{
 		//var_dump($this->options);
 		$sql = 'SELECT %FIELDS% FROM %TABLE% %WHERE% %GROUP% %HAVING% %ORDER% %LIMIT% ';
 		
 		//var_dump($this->options);
-		
+		//var_dump($this->options['fields']);
+		//var_dump(isset($this->options['fields']) ? $this->options['fields'] : null);
 		$sql = str_replace(
 			array('%FIELDS%','%TABLE%' , '%WHERE%' , '%GROUP%' , '%ORDER%' , '%LIMIT%' , '%HAVING%'),
 			array(
@@ -303,6 +313,7 @@ class Model
 			),
 			$sql
 		);
+	//echo $sql.'<br/>';
 
 		$data = $this->query($sql);
 		return $data;
@@ -375,27 +386,30 @@ class Model
 		} else {
 			$where = 'WHERE ' . $this->options['where'][0];
 		}
-		
+		//var_dump($where);
 		return $where;
 	}
 	
 	//处理表的问题
 	protected function parseTable()
 	{
-		$table = '';
-		
+
+		$table='';
 		if (isset($this->options['table'])) {
+
 			$table = $this->prefix . $this->options['table'][0];
 		} else {
-			$table = $this->table;
+
+			$table =  $this->prefix .$this->table;
 		}
-		
+
 		return $table;
 	}
 	
 	//处理字段的问题
 	protected function parseFields($options)
 	{
+
 		//var_dump($options);
 		//return '这是我替换好的字段';
 		$fields = '';
@@ -417,6 +431,7 @@ class Model
 				$fields = join(',' , array_intersect($options[0] , $this->fields));
 			}
 		}
+		//var_dump($fields);
 		return $fields;
 	}
 	
@@ -428,7 +443,8 @@ class Model
 		//var_dump($func , $args);
 		
 		if (in_array($func , ['fields' , 'table' , 'where' , 'group' , 'order' , 'limit' , 'having'])) {
-			$this->options[$func] = $args;
+			 $this->options[$func] = $args;
+			 //var_dump( $this->options[$func]);
 			return $this;
 		} else if(strtolower(substr($func , 0 , 5)) == 'getby') {
 			
@@ -469,11 +485,16 @@ class Model
 	
 	
 	//处理表名字
-	protected function getTable()
+	public function getTable($table)
 	{
+	    $this->table=$table;
+	    //var_dump($this->table);
+
+
 		//两种情况 如果给了默认值和没有给默认值的情况
-		$table = '';
+
 		if (isset($this->table)) {
+
 			$table = $this->prefix . $this->table;
 		} else {
 			
